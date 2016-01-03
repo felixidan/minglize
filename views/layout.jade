@@ -1,5 +1,5 @@
 doctype html
-html
+html(ng-app="minglizeApp")
     head
         meta(charset='utf-8')
         meta(http-equiv='X-UA-Compatible', content='IE=edge')
@@ -10,24 +10,17 @@ html
         link(rel='stylesheet', href="/components/bootstrap/dist/css/bootstrap.css")
         link(rel='stylesheet', href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css")
     body
-
-        .container
-            block content
-        //
-
-        //
-        //    include partials/flash
-        //
-        //include partials/footer
+        include partials/header
+        .container(ui-view)
+        include partials/footer
 
         script(type="text/javascript", src="/components/jquery/dist/jquery.js")
         script(type="text/javascript", src="/components/angular/angular.js")
         script(type="text/javascript", src="/components/bootstrap/dist/js/bootstrap.js")
         script(type="text/javascript", src="/components/lodash/lodash.min.js")
         script(type="text/javascript", src="/components/angular-scroll-glue/src/scrollglue.js")
-        script(type="text/javascript", src="/socket.io/socket.io.js")
+        //script(type="text/javascript", src="/socket.io/socket.io.js")
         script(src="/components/angular-ui-router/release/angular-ui-router.min.js")
 
         script(type="text/javascript", src="/js/app.js")
         script(type="text/javascript", src="/js/controllers.js")
-        script(type="text/javascript", src="/js/services.js")

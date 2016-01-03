@@ -1,18 +1,17 @@
-var minglizeApp = angular.module('appcloudDeployApp', ['luegg.directives', 'ui.router']);
+var minglizeApp = angular.module('minglizeApp', ['luegg.directives', 'ui.router']);
 
 minglizeApp
     .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
-            .state('home', {
-                url: '/home',
-                templateUrl: '/views/home',
-                controller: 'homeCtrl'
+            .state('users', {
+                url: '/users',
+                templateUrl: '/views/partials/users',
+                controller: 'usersCtrl'
             })
-            .state('settings', {
-                url: '/settings',
-                templateUrl: '/views/settings',
-                controller: 'settingsCtrl'
+            .state('login', {
+                url: '/login',
+                templateUrl: '/views/account/login',
+                controller: 'loginCtrl'
             });
-
-        $urlRouterProvider.otherwise('/instances');
+        $urlRouterProvider.otherwise('/users');
     });

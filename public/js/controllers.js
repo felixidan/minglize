@@ -1,10 +1,18 @@
-minglizeApp.controller('homeCtrl', ['$scope', '$http', '$timeout', function ($scope, $http) {
-
+minglizeApp.controller('usersCtrl', ['$scope', '$http', '$timeout', function ($scope, $http) {
 
     console.log('here');
+    $scope.users = [];
+    function getUsers() {
+        $http.get('/users')
+            .then(function (users) {
+                $scope.users = users.data;
+                console.log($scope.users);
+            });
+    }
+
+    getUsers();
     //var socket = io('http://localhost:3000');
     //socket.emit('deploy', data);
-
 
 
     //socket.on('progress', function (data) {
@@ -19,3 +27,5 @@ minglizeApp.controller('homeCtrl', ['$scope', '$http', '$timeout', function ($sc
     //    });
     //});
 }]);
+minglizeApp.controller('loginCtrl', function () {
+});

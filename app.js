@@ -97,14 +97,14 @@ app.use(function (req, res, next) {
 });
 app.use(express.static(path.join(__dirname, 'public'), {maxAge: 31557600000}));
 
-app.get('/views/:view', function (req, res) {
-    return res.render(req.params.view);
+app.get('/views/:folder/:view', function (req, res) {
+    return res.render(req.params.folder + '/' + req.params.view);
 });
 /**
  * Primary app routes.
  */
 app.get('/', homeController.index);
-app.get('/login', userController.getLogin);
+//app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
 app.get('/forgot', userController.getForgot);
@@ -120,7 +120,7 @@ app.post('/account/profile', passportConf.isAuthenticated, userController.postUp
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
-
+app.get('/users', userController.getUsers);
 /**
  * API examples routes.
  */

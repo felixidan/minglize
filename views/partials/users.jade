@@ -1,0 +1,3 @@
+div
+    li(ng-repeat="user in users" ng-if="user.profile")
+        img.img.img-circle(ng-src="{{user.profile.picture}}")

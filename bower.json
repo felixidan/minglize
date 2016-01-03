@@ -1,0 +1,26 @@
+{
+  "name": "minglize",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "https://github.com/id0Sch/minglize",
+  "moduleType": [],
+  "private": true,
+  "dependencies": {
+    "bootstrap": "~3.1.1",
+    "angular": "*",
+    "lodash": "~3.10.1",
+    "angular-scroll-glue": "~2.0.6",
+    "angular-material": "~0.10.1",
+    "angular-animate": "~1.4.4",
+    "angular-ui-router": "~0.2.15",
+    "angular-aria": "~1.4.4"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,25 +1,10 @@
-minglizeApp.controller('usersCtrl', ['$scope', '$http', '$timeout', function ($scope, $http) {
-
-    console.log('here');
+minglizeApp.controller('usersCtrl', ['$scope', '$http', '$timeout', function ($scope) {
     $scope.users = [];
-    function getUsers() {
-        $http.get('/users')
-            .then(function (users) {
-                $scope.users = users.data;
-                console.log($scope.users);
-            });
-    }
-
-    getUsers();
-    //var socket = io('http://localhost:3000');
-    //socket.emit('deploy', data);
-
-
-    //socket.on('progress', function (data) {
-    //    $scope.$apply(function () {
-    //        $scope.selectedEnv.deploymentMessage += data;
-    //    });
-    //});
+    socket.on('users', function (data) {
+        $scope.$apply(function () {
+            $scope.users = data;
+        });
+    });
     //socket.on('end', function (code) {
     //    $scope.$apply(function () {
     //        $scope.selectedEnv.deploymentMessage += '\nFinished executing with exit code: ' + code;
@@ -29,3 +14,13 @@ minglizeApp.controller('usersCtrl', ['$scope', '$http', '$timeout', function ($s
 }]);
 minglizeApp.controller('loginCtrl', function () {
 });
+
+minglizeApp.controller('mingleCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.user = null;
+    $http.get('/user')
+        .then(function (user) {
+            $scope.user = user.data;
+        });
+
+
+}]);

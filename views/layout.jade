@@ -10,7 +10,7 @@ html(ng-app="minglizeApp")
         link(rel='stylesheet', href="/components/bootstrap/dist/css/bootstrap.css")
         link(rel='stylesheet', href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css")
     body
-        include partials/header
+        //include partials/header
         .container(ui-view)
         include partials/footer
 
@@ -19,7 +19,7 @@ html(ng-app="minglizeApp")
         script(type="text/javascript", src="/components/bootstrap/dist/js/bootstrap.js")
         script(type="text/javascript", src="/components/lodash/lodash.min.js")
         script(type="text/javascript", src="/components/angular-scroll-glue/src/scrollglue.js")
-        //script(type="text/javascript", src="/socket.io/socket.io.js")
+        script(type="text/javascript", src="/socket.io/socket.io.js")
         script(src="/components/angular-ui-router/release/angular-ui-router.min.js")
 
         script(type="text/javascript", src="/js/app.js")

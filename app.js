@@ -100,6 +100,7 @@ app.use(express.static(path.join(__dirname, 'public'), {maxAge: 31557600000}));
 app.get('/views/:folder/:view', function (req, res) {
     return res.render(req.params.folder + '/' + req.params.view);
 });
+
 /**
  * Primary app routes.
  */
@@ -121,6 +122,12 @@ app.post('/account/password', passportConf.isAuthenticated, userController.postU
 app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
 app.get('/users', userController.getUsers);
+app.get('/user', passportConf.isAuthenticated, function (req, res) {
+    return res.send(req.user);
+});
+app.get('/startPairing', userController.pairingStarted);
+app.get('/pairingList', userController.getPairingList);
+
 /**
  * API examples routes.
  */
@@ -132,6 +139,13 @@ app.get('/api/facebook', passportConf.isAuthenticated, passportConf.isAuthorized
  */
 app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email', 'user_location']}));
 app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/login'}), function (req, res) {
+    userController.getUsers(function (err, users) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        io.sockets.emit('users', users);
+    });
     res.redirect(req.session.returnTo || '/');
 });
 
@@ -142,10 +156,53 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRed
 app.use(errorHandler());
 
 /**
- * Start Express server.
+ * Start Express + socketio server.
  */
-app.listen(app.get('port'), function () {
+var io = require('socket.io')(app.listen(app.get('port'), function () {
     console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
-});
+}));
 
 module.exports = app;
+
+
+io.sockets.on('connection', function (socket) {
+    function emitUsers(data) {
+        userController.getUsers(function (err, users) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log(users.length);
+            socket.broadcast.emit('users', users);
+            socket.emit('users', users);
+        });
+    }
+
+    emitUsers();
+    //setInerval(10, emitUsers);
+    socket.on('login', function () {
+        console.log('login');
+        emitUsers()
+    });
+    socket.on('logout', function () {
+        socket.emit('users');
+    });
+    //socket.on('deploy', function (data) {
+    //    var deploySh = spawn('ssh', ['-o', "StrictHostKeyChecking no", '-l', 'ubuntu', data.ip, data.script]);
+    //    deploySh.stdout.on('data', function (data) {
+    //        //console.log(data.toString());
+    //        io.emit('progress', data.toString('ascii'));
+    //    });
+    //    deploySh.stderr.on('data', function (data) {
+    //        //console.log(data.toString());
+    //        io.emit('progress', 'Error: ' + data.toString('ascii'));
+    //    });
+    //    deploySh.on('exit', function (code) {
+    //        if (code === 255) {
+    //            return io.emit('end', 'Connection Failed (' + code + ')');
+    //        }
+    //        io.emit('end', code);
+    //    });
+    //
+    //});
+});

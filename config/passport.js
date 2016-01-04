@@ -88,7 +88,7 @@ passport.use(new FacebookStrategy(secrets.facebook, function(req, accessToken, r
           user.email = profile._json.email;
           user.facebook = profile.id;
           user.tokens.push({ kind: 'facebook', accessToken: accessToken });
-          user.profile.name = profile.displayName;
+          user.profile.name = profile.name;
           user.profile.gender = profile._json.gender;
           user.profile.picture = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
           user.profile.location = (profile._json.location) ? profile._json.location.name : '';

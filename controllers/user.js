@@ -7,19 +7,6 @@ var User = require('../models/User');
 var secrets = require('../config/secrets');
 
 /**
- * GET /login
- * Login page.
- */
-exports.getLogin = function (req, res) {
-    if (req.user) {
-        return res.redirect('/');
-    }
-    res.render('account/login', {
-        title: 'Login'
-    });
-};
-
-/**
  * POST /login
  * Sign in using email and password.
  */
@@ -322,10 +309,8 @@ exports.getForgot = function (req, res) {
     });
 };
 
-exports.getUsers = function (req, res) {
-    User.find({}, function (err, users) {
-        res.send(users);
-    });
+exports.getUsers = function (callback) {
+    User.find({}, callback);
 };
 /**
  * POST /forgot
@@ -389,4 +374,21 @@ exports.postForgot = function (req, res, next) {
         }
         res.redirect('/forgot');
     });
+};
+
+var pairing = {};
+exports.pairingStarted = function (req, res, next) {
+    User.find({}, 'profile.picture profile.name', function (err, users) {
+        var newArr = _(users).reduce(function(result, value, index) {
+            if (index % 2 === 0)
+                result.push(arr.slice(index, index + 2));
+
+            return result;
+        }, []);
+        //res.send(users);
+    })
+};
+
+exports.getPairingList = function (req, res, next) {
+
 };
